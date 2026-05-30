@@ -52,60 +52,8 @@ export function PagedLayout({ pages, currentPage = 0, onPageChange }: Props) {
   const goNext = useCallback(() => goTo(currentPage + 1), [currentPage, goTo]);
   const goPrev = useCallback(() => goTo(currentPage - 1), [currentPage, goTo]);
 
-  // ─── Wheel: only trigger page change when page content is at boundary ───
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      const el = pageRef.current;
-      if (el) {
-        const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 8;
-        const atTop = el.scrollTop <= 8;
-        if (e.deltaY > 0 && !atBottom) return;
-        if (e.deltaY < 0 && !atTop) return;
-      }
-      e.preventDefault();
-      if (wheelLocked.current) return;
-      wheelLocked.current = true;
-      if (e.deltaY > 30) goNext();
-      else if (e.deltaY < -30) goPrev();
-      setTimeout(() => { wheelLocked.current = false; }, 950);
-    };
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, [goNext, goPrev]);
-
-  // Arrow keys
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); goNext(); }
-      if (e.key === "ArrowUp"   || e.key === "PageUp")   { e.preventDefault(); goPrev(); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [goNext, goPrev]);
-
-  // Touch swipe
-  useEffect(() => {
-    const onStart = (e: TouchEvent) => { touchY.current = e.touches[0].clientY; };
-    const onEnd = (e: TouchEvent) => {
-      const el = pageRef.current;
-      const delta = touchY.current - e.changedTouches[0].clientY;
-      if (Math.abs(delta) < 60) return;
-      if (el) {
-        const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 8;
-        const atTop = el.scrollTop <= 8;
-        if (delta > 0 && !atBottom) return;
-        if (delta < 0 && !atTop) return;
-      }
-      if (delta > 0) goNext(); else goPrev();
-    };
-    window.addEventListener("touchstart", onStart, { passive: true });
-    window.addEventListener("touchend", onEnd, { passive: true });
-    return () => {
-      window.removeEventListener("touchstart", onStart);
-      window.removeEventListener("touchend", onEnd);
-    };
-  }, [goNext, goPrev]);
+  // Removed wheel, keydown, and touch swipe listeners per user request.
+  // Navigation between pages will now only occur via the Navbar.
 
   // Reset scroll on page change
   useEffect(() => {
