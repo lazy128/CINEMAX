@@ -172,5 +172,48 @@ export const quanLyRapService = {
       sapChieu: phim.sap_chieu,
       heThongRapChieu
     };
+  },
+
+  async TaoHeThongRap(req) {
+    const { maHeThongRap, tenHeThongRap, logo } = req.body;
+    const exists = await prisma.he_thong_rap.findUnique({
+      where: { ma_he_thong_rap: maHeThongRap }
+    });
+    if (exists) throw new Error("Mã hệ thống rạp đã tồn tại!");
+    
+    return await prisma.he_thong_rap.create({
+      data: {
+        ma_he_thong_rap: maHeThongRap,
+        ten_he_thong_rap: tenHeThongRap,
+        logo: logo || "https://s3img.vcdn.vn/123phim/2018/09/bhd-star-cineplex-15380164228308.png"
+      }
+    });
+  },
+
+  async TaoCumRap(req) {
+    const { maCumRap, tenCumRap, diaChi, maHeThongRap } = req.body;
+    const exists = await prisma.cum_rap.findUnique({
+      where: { ma_cum_rap: maCumRap }
+    });
+    if (exists) throw new Error("Mã cụm rạp đã tồn tại!");
+
+    return await prisma.cum_rap.create({
+      data: {
+        ma_cum_rap: maCumRap,
+        ten_cum_rap: tenCumRap,
+        dia_chi: diaChi || "",
+        ma_he_thong_rap: maHeThongRap
+      }
+    });
+  },
+
+  async TaoRapPhim(req) {
+    const { tenRap, maCumRap } = req.body;
+    return await prisma.rap_phim.create({
+      data: {
+        ten_rap: tenRap,
+        ma_cum_rap: maCumRap
+      }
+    });
   }
 };

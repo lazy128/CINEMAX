@@ -21,5 +21,20 @@ export const quanLyRapController = {
     const result = await quanLyRapService.LayThongTinLichChieuPhim(req);
     const response = responseSuccess(result, "Lấy thông tin lịch chiếu phim thành công");
     res.status(response.statusCode).json(response);
+  },
+  async TaoHeThongRap(req, res) {
+    const result = await quanLyRapService.TaoHeThongRap(req);
+    const response = responseSuccess(result, "Tạo hệ thống rạp thành công");
+    res.status(response.statusCode).json(response);
+  },
+  async TaoCumRap(req, res) {
+    const result = await quanLyRapService.TaoCumRap(req);
+    const response = responseSuccess(result, "Tạo cụm rạp thành công");
+    res.status(response.statusCode).json(response);
+  },
+  async TaoRapPhim(req, res) {
+    const result = await quanLyRapService.TaoRapPhim(req);
+    const response = responseSuccess(result, "Tạo phòng chiếu thành công");
+    res.status(response.statusCode).json(response);
   }
 };
