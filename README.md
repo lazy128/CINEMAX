@@ -34,6 +34,7 @@ npm run dev
 Để kiểm tra cơ chế phân quyền, hệ thống đã chia rạch ròi 2 loại tài khoản:
 
 ### 1. Chế Độ Quản Trị Viên (Admin)
+- **Tài khoản Test:** `admin01` / **Mật khẩu:** `123456`
 - **Đăng nhập** bằng tài khoản có `maLoaiNguoiDung` là `"QuanTri"`.
 - Trên giao diện Frontend, bạn sẽ nhận biết tài khoản Admin thông qua **Icon Hình Cái Khiên (Shield)** góc trên bên phải thay vì hình người bình thường.
 - Thanh Menu sẽ xuất hiện thêm mục **ADMIN**, cho phép truy cập vào Trang Quản Trị.
@@ -43,6 +44,7 @@ npm run dev
   - Quản trị Người Dùng.
 
 ### 2. Chế Độ Khách Hàng (User)
+- **Tài khoản Test:** `user01` / **Mật khẩu:** `123456` (Hoặc Thầy có thể tự Đăng Ký tài khoản mới).
 - **Đăng nhập** bằng tài khoản có `maLoaiNguoiDung` là `"KhachHang"`.
 - Trình duyệt sẽ hiển thị icon người dùng mặc định. Nút **ADMIN** trên Navbar sẽ bị ẩn.
 - **Bảo mật kép:** Nếu User cố tình nhập URL `/admin`, Frontend sẽ block và hiển thị màn hình **ACCESS DENIED**. Nếu dùng Postman cố tình gọi API Admin, Backend sẽ trả về lỗi `403 Forbidden`.
