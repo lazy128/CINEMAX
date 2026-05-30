@@ -121,9 +121,9 @@ export const quanLyPhimService = {
         ma_nhom: maNhom || "GP00",
         ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
         danh_gia: Number(danhGia) || 0,
-        hot: Boolean(hot),
-        dang_chieu: Boolean(dangChieu),
-        sap_chieu: Boolean(sapChieu),
+        hot: hot === "true" || hot === true,
+        dang_chieu: dangChieu === "true" || dangChieu === true,
+        sap_chieu: sapChieu === "true" || sapChieu === true,
         created_by: req.user?.tai_khoan,
       },
     });
@@ -148,9 +148,9 @@ export const quanLyPhimService = {
         ma_nhom: req.body.maNhom ?? current.ma_nhom,
         ngay_khoi_chieu: req.body.ngayKhoiChieu ? new Date(req.body.ngayKhoiChieu) : current.ngay_khoi_chieu,
         danh_gia: req.body.danhGia != null ? Number(req.body.danhGia) : current.danh_gia,
-        hot: req.body.hot != null ? Boolean(req.body.hot) : current.hot,
-        dang_chieu: req.body.dangChieu != null ? Boolean(req.body.dangChieu) : current.dang_chieu,
-        sap_chieu: req.body.sapChieu != null ? Boolean(req.body.sapChieu) : current.sap_chieu,
+        hot: req.body.hot != null ? (req.body.hot === "true" || req.body.hot === true) : current.hot,
+        dang_chieu: req.body.dangChieu != null ? (req.body.dangChieu === "true" || req.body.dangChieu === true) : current.dang_chieu,
+        sap_chieu: req.body.sapChieu != null ? (req.body.sapChieu === "true" || req.body.sapChieu === true) : current.sap_chieu,
       },
     });
 
@@ -169,9 +169,9 @@ export const quanLyPhimService = {
         ma_nhom: maNhom || "GP00",
         ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
         danh_gia: Number(danhGia) || 0,
-        hot: Boolean(hot),
-        dang_chieu: Boolean(dangChieu),
-        sap_chieu: Boolean(sapChieu),
+        hot: hot === "true" || hot === true,
+        dang_chieu: dangChieu === "true" || dangChieu === true,
+        sap_chieu: sapChieu === "true" || sapChieu === true,
         created_by: req.user?.tai_khoan,
       },
     });

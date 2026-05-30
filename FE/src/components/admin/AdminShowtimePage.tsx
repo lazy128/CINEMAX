@@ -421,7 +421,7 @@ export function AdminShowtimePage() {
                   <textarea value={moTa} onChange={(e) => setMoTa(e.target.value)} required rows={4} className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/10 pt-6">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <button type="button" onClick={() => setDangChieu(!dangChieu)} className="text-accent-blood transition hover:scale-110">
                       {dangChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
@@ -433,12 +433,6 @@ export function AdminShowtimePage() {
                       {sapChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
                     </button>
                     <span className="font-display text-[11px] tracking-widest text-text-primary">SẮP CHIẾU</span>
-                  </label>
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setHot(!hot)} className="text-accent-blood transition hover:scale-110">
-                      {hot ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
-                    </button>
-                    <span className="font-display text-[11px] tracking-widest text-text-primary">PHIM HOT</span>
                   </label>
                 </div>
 
