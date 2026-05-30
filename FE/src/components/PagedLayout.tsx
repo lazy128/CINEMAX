@@ -107,26 +107,7 @@ export function PagedLayout({ pages, currentPage = 0, onPageChange }: Props) {
         ))}
       </nav>
 
-      {/* Scroll hint on first page */}
-      <AnimatePresence>
-        {currentPage === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="pointer-events-none fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-1"
-          >
-            <span className="font-mono text-[9px] tracking-[0.5em] text-text-muted">SCROLL</span>
-            <motion.span
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity }}
-              className="text-lg text-text-muted"
-            >
-              ↓
-            </motion.span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Removed scroll hint */ }
     </div>
   );
 }
