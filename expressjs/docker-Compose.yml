@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: .
+    container_name: expressjs-backend
+    restart: unless-stopped
+    ports:
+      - "3069:3069"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3069', (r) => {if(r.statusCode>=500)process.exit(1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - expressjs-network
+
+  db:
+    image: mysql:8.0
+    container_name: expressjs-db
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3309:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=12082005
+      - MYSQL_DATABASE=pinterest_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - expressjs-network
+
+networks:
+  expressjs-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

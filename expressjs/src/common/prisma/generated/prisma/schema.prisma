@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/common/prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model banner {
+  ma_banner Int    @id @default(autoincrement())
+  ma_phim   Int
+  hinh_anh  String @db.VarChar(500)
+  phim      phim   @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "fk_banner_phim")
+
+  @@index([ma_phim], map: "fk_banner_phim")
+}
+
+model cum_rap {
+  ma_cum_rap      String       @id @db.VarChar(30)
+  ten_cum_rap     String       @db.VarChar(255)
+  dia_chi         String?      @db.VarChar(255)
+  ma_he_thong_rap String       @db.VarChar(20)
+  he_thong_rap    he_thong_rap @relation(fields: [ma_he_thong_rap], references: [ma_he_thong_rap], onDelete: NoAction, onUpdate: NoAction, map: "fk_cum_rap_he_thong")
+  rap_phim        rap_phim[]
+
+  @@index([ma_he_thong_rap], map: "fk_cum_rap_he_thong")
+}
+
+model dat_ve {
+  id            Int        @id @default(autoincrement())
+  tai_khoan     String     @db.VarChar(50)
+  ma_lich_chieu Int
+  ma_ghe        Int
+  ngay_dat      DateTime   @default(now()) @db.Timestamp(0)
+  ghe           ghe        @relation(fields: [ma_ghe], references: [ma_ghe], onDelete: NoAction, onUpdate: NoAction, map: "fk_dat_ve_ghe")
+  lich_chieu    lich_chieu @relation(fields: [ma_lich_chieu], references: [ma_lich_chieu], onDelete: NoAction, onUpdate: NoAction, map: "fk_dat_ve_lich_chieu")
+  nguoi_dung    nguoi_dung @relation(fields: [tai_khoan], references: [tai_khoan], onDelete: NoAction, onUpdate: NoAction, map: "fk_dat_ve_nguoi_dung")
+
+  @@unique([ma_lich_chieu, ma_ghe], map: "uq_ve_lich_chieu_ghe")
+  @@index([ma_ghe], map: "fk_dat_ve_ghe")
+  @@index([tai_khoan], map: "fk_dat_ve_nguoi_dung")
+}
+
+model ghe {
+  ma_ghe   Int      @id @default(autoincrement())
+  ten_ghe  String   @db.VarChar(20)
+  loai_ghe String   @default("Thuong") @db.VarChar(20)
+  ma_rap   Int
+  dat_ve   dat_ve[]
+  rap_phim rap_phim @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "fk_ghe_rap")
+
+  @@unique([ma_rap, ten_ghe], map: "uq_ghe_rap")
+}
+
+model giao_dich {
+  id             Int      @id @default(autoincrement())
+  tai_khoan      String   @db.VarChar(50)
+  ma_lich_chieu  Int
+  tong_tien      Int
+  noi_dung_ck    String   @db.VarChar(255)
+  ngay_giao_dich DateTime @default(now()) @db.Timestamp(0)
+}
+
+model he_thong_rap {
+  ma_he_thong_rap  String    @id @db.VarChar(20)
+  ten_he_thong_rap String    @db.VarChar(255)
+  logo             String?   @db.VarChar(500)
+  cum_rap          cum_rap[]
+}
+
+model lich_chieu {
+  ma_lich_chieu  Int      @id @default(autoincrement())
+  ma_rap         Int
+  ma_phim        Int
+  ngay_gio_chieu DateTime @db.DateTime(0)
+  gia_ve         Int
+  dat_ve         dat_ve[]
+  phim           phim     @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "fk_lich_chieu_phim")
+  rap_phim       rap_phim @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "fk_lich_chieu_rap")
+
+  @@index([ma_phim], map: "fk_lich_chieu_phim")
+  @@index([ma_rap], map: "fk_lich_chieu_rap")
+}
+
+model nguoi_dung {
+  tai_khoan       String   @id @db.VarChar(50)
+  ho_ten          String   @db.VarChar(100)
+  email           String   @unique(map: "email") @db.VarChar(100)
+  so_dt           String   @db.VarChar(20)
+  mat_khau        String   @db.VarChar(255)
+  loai_nguoi_dung String   @default("KhachHang") @db.VarChar(30)
+  ma_nhom         String   @default("GP00") @db.VarChar(10)
+  created_at      DateTime @default(now()) @db.Timestamp(0)
+  updated_at      DateTime @default(now()) @db.Timestamp(0)
+  dat_ve          dat_ve[]
+}
+
+model phim {
+  ma_phim         Int          @id @default(autoincrement())
+  ten_phim        String       @db.VarChar(255)
+  trailer         String?      @db.VarChar(500)
+  hinh_anh        String?      @db.VarChar(500)
+  mo_ta           String?      @db.Text
+  ngay_khoi_chieu DateTime?    @db.Date
+  danh_gia        Int          @default(0)
+  hot             Boolean      @default(false)
+  dang_chieu      Boolean      @default(false)
+  sap_chieu       Boolean      @default(true)
+  ma_nhom         String       @default("GP00") @db.VarChar(10)
+  created_at      DateTime     @default(now()) @db.Timestamp(0)
+  updated_at      DateTime     @default(now()) @db.Timestamp(0)
+  created_by      String?      @db.VarChar(50)
+  deleted_at      DateTime?    @db.Timestamp(0)
+  deleted_by      String?      @db.VarChar(50)
+  is_deleted      Boolean      @default(false)
+  banner          banner[]
+  lich_chieu      lich_chieu[]
+}
+
+model rap_phim {
+  ma_rap     Int          @id @default(autoincrement())
+  ten_rap    String       @db.VarChar(255)
+  ma_cum_rap String       @db.VarChar(30)
+  ghe        ghe[]
+  lich_chieu lich_chieu[]
+  cum_rap    cum_rap      @relation(fields: [ma_cum_rap], references: [ma_cum_rap], onDelete: NoAction, onUpdate: NoAction, map: "fk_rap_phim_cum_rap")
+
+  @@index([ma_cum_rap], map: "fk_rap_phim_cum_rap")
+}

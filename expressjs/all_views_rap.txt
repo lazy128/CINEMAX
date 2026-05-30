@@ -1,0 +1,90 @@
+--- VIEW START ---
+import express from "express"
+import authRouter from "./auth.router.js"
+import quanLyNguoiDungRouter from "./quan-ly-nguoi-dung.router.js"
+import quanLyPhimRouter from "./quan-ly-phim.router.js"
+import quanLyRapRouter from "./quan-ly-rap.router.js"
+import quanLyDatVeRouter from "./quan-ly-dat-ve.router.js"
+
+const rootRouter = express.Router()
+
+rootRouter.use("/auth", authRouter)
+rootRouter.use("/QuanLyNguoiDung", quanLyNguoiDungRouter)
+rootRouter.use("/QuanLyPhim", quanLyPhimRouter)
+rootRouter.use("/QuanLyRap", quanLyRapRouter)
+rootRouter.use("/QuanLyDatVe", quanLyDatVeRouter)
+
+export default rootRouter
+
+--- VIEW START ---
+import express from "express"
+import authRouter from "./auth.router.js"
+import quanLyNguoiDungRouter from "./quan-ly-nguoi-dung.router.js"
+import quanLyPhimRouter from "./quan-ly-phim.router.js"
+import quanLyRapRouter from "./quan-ly-rap.router.js"
+import quanLyDatVeRouter from "./quan-ly-dat-ve.router.js"
+
+const rootRouter = express.Router()
+
+rootRouter.use("/auth", authRouter)
+rootRouter.use("/QuanLyNguoiDung", quanLyNguoiDungRouter)
+rootRouter.use("/QuanLyPhim", quanLyPhimRouter)
+rootRouter.use("/QuanLyRap", quanLyRapRouter)
+rootRouter.use("/QuanLyDatVe", quanLyDatVeRouter)
+
+export default rootRouter
+
+--- VIEW START ---
+--- VIEW START ---
+import express from "express"
+import authRouter from "./auth.router.js"
+import quanLyNguoiDungRouter from "./quan-ly-nguoi-dung.router.js"
+import quanLyPhimRouter from "./quan-ly-phim.router.js"
+import quanLyRapRouter from "./quan-ly-rap.router.js"
+import quanLyDatVeRouter from "./quan-ly-dat-ve.router.js"
+
+const rootRouter = express.Router()
+
+rootRouter.use("/auth", authRouter)
+rootRouter.use("/QuanLyNguoiDung", quanLyNguoiDungRouter)
+rootRouter.use("/QuanLyPhim", quanLyPhimRouter)
+rootRouter.use("/QuanLyRap", quanLyRapRouter)
+rootRouter.use("/QuanLyDatVe", quanLyDatVeRouter)
+
+export default rootRouter
+
+--- VIEW START ---
+import express from "express"
+import authRouter from "./auth.router.js"
+import quanLyNguoiDungRouter from "./quan-ly-nguoi-dung.router.js"
+import quanLyPhimRouter from "./quan-ly-phim.router.js"
+import quanLyRapRouter from "./quan-ly-rap.router.js"
+import quanLyDatVeRouter from "./quan-ly-dat-ve.router.js"
+
+const rootRouter = express.Router()
+
+rootRouter.use("/auth", authRouter)
+rootRouter.use("/QuanLyNguoiDung", quanLyNguoiDungRouter)
+rootRouter.use("/QuanLyPhim", quanLyPhimRouter)
+rootRouter.use("/QuanLyRap", quanLyRapRouter)
+rootRouter.use("/QuanLyDatVe", quanLyDatVeRouter)
+
+export default rootRouter
+
+--- VIEW START ---
+import express from "express"
+import authRouter from "./auth.router.js"
+import quanLyNguoiDungRouter from "./quan-ly-nguoi-dung.router.js"
+import quanLyPhimRouter from "./quan-ly-phim.router.js"
+import quanLyRapRouter from "./quan-ly-rap.router.js"
+import quanLyDatVeRouter from "./quan-ly-dat-ve.router.js"
+
+const rootRouter = express.Router()
+
+rootRouter.use("/auth", authRouter)
+rootRouter.use("/QuanLyNguoiDung", quanLyNguoiDungRouter)
+rootRouter.use("/QuanLyPhim", quanLyPhimRouter)
+rootRouter.use("/QuanLyRap", quanLyRapRouter)
+rootRouter.use("/QuanLyDatVe", quanLyDatVeRouter)
+
+export default rootRouter

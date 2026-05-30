@@ -1,0 +1,535 @@
+--- VIEW START ---
+import { responseSuccess } from "../common/helpers/response.helper.js";
+import { quanLyPhimService } from "../services/quan-ly-phim.service.js";
+
+export const quanLyPhimController = {
+  async LayDanhSachBanner(req, res) {
+    const result = await quanLyPhimService.LayDanhSachBanner(req);
+    const response = responseSuccess(result, "Lấy danh sách banner thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhim(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhim(req);
+    const response = responseSuccess(result, "Lấy danh sách phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimPhanTrang(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimPhanTrang(req);
+    const response = responseSuccess(result, "Lấy danh sách phim phân trang thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimTheoNgay(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimTheoNgay(req);
+    const response = responseSuccess(result, "Lấy danh sách phim theo ngày thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async ThemPhimUploadHinh(req, res) {
+    const result = await quanLyPhimService.ThemPhimUploadHinh(req);
+    const response = responseSuccess(result, "Thêm phim upload hình thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async CapNhatPhimUpload(req, res) {
+    const result = await quanLyPhimService.CapNhatPhimUpload(req);
+    const response = responseSuccess(result, "Cập nhật phim upload thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async ThemPhim(req, res) {
+    const result = await quanLyPhimService.ThemPhim(req);
+    const response = responseSuccess(result, "Thêm phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async XoaPhim(req, res) {
+    const result = await quanLyPhimService.XoaPhim(req);
+    const response = responseSuccess(result, "Xóa phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayThongTinPhim(req, res) {
+    const result = await quanLyPhimService.LayThongTinPhim(req);
+    const response = responseSuccess(result, "Lấy thông tin phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+};
+
+--- VIEW START ---
+import { prisma } from "../common/prisma/connect.prisma.js";
+import { BadRequestException, NotfoundException } from "../common/helpers/exception.helper.js";
+
+function mapPhim(item) {
+  const status = item.dang_chieu ? "now_showing" : "coming_soon";
+  const releaseIso = item.ngay_khoi_chieu
+    ? new Date(item.ngay_khoi_chieu).toISOString()
+    : null;
+  const poster = item.hinh_anh || `https://picsum.photos/seed/phim-${item.ma_phim}/400/600`;
+
+  return {
+    maPhim: item.ma_phim,
+    tenPhim: item.ten_phim,
+    trailer: item.trailer,
+    hinhAnh: item.hinh_anh,
+    moTa: item.mo_ta,
+    maNhom: item.ma_nhom,
+    ngayKhoiChieu: item.ngay_khoi_chieu,
+    danhGia: item.danh_gia,
+    hot: item.hot,
+    dangChieu: item.dang_chieu,
+    sapChieu: item.sap_chieu,
+    id: String(item.ma_phim),
+    title: item.ten_phim,
+    tagline: item.mo_ta || item.ten_phim,
+    genre: ["General"],
+    rating: item.danh_gia >= 8 ? "18+" : item.danh_gia >= 6 ? "16+" : "13+",
+    imdbScore: Number(item.danh_gia || 0),
+    runtime: 120,
+    language: "Vietnamese",
+    synopsis: item.mo_ta || "No synopsis",
+    cast: [],
+    director: "Unknown",
+    status,
+    releaseDate: releaseIso,
+    trailerUrl: item.trailer || "#",
+    poster,
+    backdrop: poster,
+    accent: item.hot ? "#e50914" : "#ff6b35",
+  };
+}
+
+export const quanLyPhimService = {
+  async LayDanhSachBanner() {
+    const it
+        danh_gia: req.body.danhGia != null ? Number(req.body.danhGia) : current.danh_gia,
+        hot: req.body.hot != null ? Boolean(req.body.hot) : current.hot,
+        dang_chieu: req.body.dangChieu != null ? Boolean(req.body.dangChieu) : current.dang_chieu,
+        sap_chieu: req.body.sapChieu != null ? Boolean(req.body.sapChieu) : current.sap_chieu,
+      },
+    });
+
+    return mapPhim(updated);
+  },
+
+  async ThemPhim(req) {
+    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+  async XoaPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    if (!maPhim) throw new BadRequestException("Thiếu MaPhim");
+
+    await prisma.banner.deleteMany({ where: { ma_phim: maPhim } });
+    await prisma.lich_chieu.deleteMany({ where: { ma_phim: maPhim } });
+    await prisma.phim.delete({ where: { ma_phim: maPhim } });
+    return true;
+  },
+
+  async LayThongTinPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    const item = await prisma.phim.findUnique({ where: { ma_phim: maPhim } });
+    if (!item) throw new NotfoundException("Phim không tồn tại");
+    return mapPhim(item);
+  },
+};
+
+--- VIEW START ---
+  async ThemPhimUploadHinh(req) {
+    const { tenPhim, trailer, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+    const hinhAnh = req.file?.path || req.body.hinhAnh || null;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+  async CapNhatPhimUpload(req) {
+    const maPhim = Number(req.body.maPhim || req.body.MaPhim);
+    if (!maPhim) throw new BadRequestException("Thiếu maPhim");
+
+    const current = await prisma.phim.findUnique({ where: { ma_phim: maPhim } });
+    if (!current || current.is_deleted) throw new NotfoundException("Phim không tồn tại");
+
+    const updated = await prisma.phim.update({
+      where: { ma_phim: maPhim },
+      data: {
+        ten_phim: req.body.tenPhim ?? current.ten_phim,
+        trailer: req.body.trailer ?? current.trailer,
+        hinh_anh: req.file?.path || req.body.hinhAnh || current.hinh_anh,
+        mo_ta: req.body.moTa ?? current.mo_ta,
+        ma_nhom: req.body.maNhom ?? current.ma_nhom,
+        ngay_khoi_chieu: req.body.ngayKhoiChieu ? new Date(req.body.ngayKhoiChieu) : current.ngay_khoi_chieu,
+        danh_gia: req.body.danhGia != null ? Number(req.body.danhGia) : current.danh_gia,
+        hot: req.body.hot != null ? Boolean(req.body.hot) : current.hot,
+        dang_chieu: req.body.dangChieu != null ? Boolean(req.body.dangChieu) : current.dang_chieu,
+        sap_chieu: req.body.sapChieu != null ? Boolean(req.body.sapChieu) : current.sap_chieu,
+      },
+    });
+
+    return mapPhim(updated);
+  },
+
+  async ThemPhim(req) {
+    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+      },
+    });
+--- VIEW START ---
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+--- VIEW START ---
+  async ThemPhimUploadHinh(req) {
+    const { tenPhim, trailer, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+    const hinhAnh = req.file?.path || req.body.hinhAnh || null;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+--- VIEW START ---
+    language: "Vietnamese",
+    synopsis: item.mo_ta || "No synopsis",
+    cast: [],
+    director: "Unknown",
+    status,
+    releaseDate: releaseIso,
+    trailerUrl: item.trailer || "#",
+    poster,
+    backdrop: poster,
+    accent: item.hot ? "#e50914" : "#ff6b35",
+  };
+}
+
+export const quanLyPhimService = {
+  async LayDanhSachBanner() {
+    const items = await prisma.banner.findMany({
+      include: { phim: true },
+      orderBy: { ma_banner: "desc" },
+    });
+
+    return items.map((x) => ({
+      maBanner: x.ma_banner,
+      maPhim: x.ma_phim,
+      hinhAnh: x.hinh_anh,
+      phim: mapPhim(x.phim),
+      image: x.hinh_anh,
+      movieId: String(x.ma_phim),
+    }));
+  },
+
+  async LayDanhSachPhim(req) {
+--- VIEW START ---
+  async LayDanhSachPhim(req) {
+    const maNhom = String(req.query.maNhom || req.query.MaNhom || "GP00");
+    const tenPhim = req.query.tenPhim ? String(req.query.tenPhim) : undefined;
+
+    const items = await prisma.phim.findMany({
+      where: {
+        ma_nhom: maNhom,
+        is_deleted: false,
+        ...(tenPhim ? { ten_phim: { contains: tenPhim } } : {}),
+      },
+      orderBy: { ma_phim: "desc" },
+    });
+
+    return items.map(mapPhim);
+  },
+
+  async LayDanhSachPhimPhanTrang(req) {
+    const maNhom = String(req.query.maNhom || req.query.MaNhom || "GP00");
+    const soTrang = Math.max(Number(req.query.soTrang) || 1, 1);
+    const soPhanTuTrenTrang = Math.max(Number(req.query.soPhanTuTrenTrang) || 10, 1);
+    const tuKhoa = req.query.tuKhoa ? String(req.query.tuKhoa) : undefined;
+    const where = {
+      ma_nhom: maNhom,
+      is_deleted: false,
+      ...(tuKhoa ? { ten_phim: { contains: tuKhoa } } : {}),
+    };
+
+    const [items, totalCount] = await Promise.all([
+      prisma.phim.findMany({
+        where,
+        skip: (soTrang - 1) * soPhanTuTrenTrang,
+        take: soPhanTuTrenTrang,
+        orderBy: { ma_phim: "desc" },
+      }),
+      prisma.phim.count({ where }),
+    ]);
+
+    return {
+      currentPage: soTrang,
+      count: totalCount,
+      totalPages: Math.ceil(totalCount / soPhanTuTrenTrang),
+--- VIEW START ---
+  async ThemPhim(req) {
+    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+        created_by: req.user?.tai_khoan,
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+  async XoaPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    if (!maPhim) throw new BadRequestException("Thiếu MaPhim");
+
+    await prisma.phim.update({
+      where: { ma_phim: maPhim },
+      data: {
+        is_deleted: true,
+        deleted_at: new Date(),
+        deleted_by: req.user.tai_khoan,
+      },
+    });
+    return true;
+  },
+
+  async LayThongTinPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    const item = await prisma.phim.findUnique({ where: { ma_phim: maPhim } });
+    if (!item || item.is_deleted) throw new NotfoundException("Phim không tồn tại");
+    return mapPhim(item);
+  },
+};
+
+--- VIEW START ---
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+        created_by: req.user?.tai_khoan,
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+  async CapNhatPhimUpload(req) {
+    const maPhim = Number(req.body.maPhim || req.body.MaPhim);
+    if (!maPhim) throw new BadRequestException("Thiếu maPhim");
+
+    const current = await prisma.phim.findUnique({ where: { ma_phim: maPhim } });
+    if (!current || current.is_deleted) throw new NotfoundException("Phim không tồn tại");
+
+    const updated = await prisma.phim.update({
+      where: { ma_phim: maPhim },
+      data: {
+        ten_phim: req.body.tenPhim ?? current.ten_phim,
+        trailer: req.body.trailer ?? current.trailer,
+        hinh_anh: req.file?.path || req.body.hinhAnh || current.hinh_anh,
+        mo_ta: req.body.moTa ?? current.mo_ta,
+        ma_nhom: req.body.maNhom ?? current.ma_nhom,
+        ngay_khoi_chieu: req.body.ngayKhoiChieu ? new Date(req.body.ngayKhoiChieu) : current.ngay_khoi_chieu,
+        danh_gia: req.body.danhGia != null ? Number(req.body.danhGia) : current.danh_gia,
+        hot: req.body.hot != null ? Boolean(req.body.hot) : current.hot,
+        dang_chieu: req.body.dangChieu != null ? Boolean(req.body.dangChieu) : current.dang_chieu,
+        sap_chieu: req.body.sapChieu != null ? Boolean(req.body.sapChieu) : current.sap_chieu,
+      },
+    });
+
+    return mapPhim(updated);
+  },
+
+  async ThemPhim(req) {
+    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+
+    const created = await prisma.phim.create({
+      data: {
+        ten_phim: tenPhim,
+        trailer,
+        hinh_anh: hinhAnh,
+        mo_ta: moTa,
+        ma_nhom: maNhom || "GP00",
+        ngay_khoi_chieu: ngayKhoiChieu ? new Date(ngayKhoiChieu) : null,
+        danh_gia: Number(danhGia) || 0,
+        hot: Boolean(hot),
+        dang_chieu: Boolean(dangChieu),
+        sap_chieu: Boolean(sapChieu),
+        created_by: req.user?.tai_khoan,
+      },
+    });
+
+    return mapPhim(created);
+  },
+
+  async XoaPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    if (!maPhim) throw new BadRequestException("Thiếu MaPhim");
+
+    await prisma.phim.update({
+      where: { ma_phim: maPhim },
+      data: {
+        is_deleted: true,
+        deleted_at: new Date(),
+        deleted_by: req.user.tai_khoan,
+      },
+    });
+    return true;
+  },
+
+  async LayThongTinPhim(req) {
+    const maPhim = Number(req.query.MaPhim || req.query.maPhim);
+    const item = await prisma.phim.findUnique({ where: { ma_phim: maPhim } });
+    if (!item || item.is_deleted) throw new NotfoundException("Phim không tồn tại");
+    return mapPhim(item);
+  },
+};
+
+--- VIEW START ---
+import { responseSuccess } from "../common/helpers/response.helper.js";
+import { quanLyPhimService } from "../services/quan-ly-phim.service.js";
+
+export const quanLyPhimController = {
+  async LayDanhSachBanner(req, res) {
+    const result = await quanLyPhimService.LayDanhSachBanner(req);
+    const response = responseSuccess(result, "Lấy danh sách banner thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhim(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhim(req);
+    const response = responseSuccess(result, "Lấy danh sách phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimPhanTrang(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimPhanTrang(req);
+    const response = responseSuccess(result, "Lấy danh sách phim phân trang thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimTheoNgay(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimTheoNgay(req);
+    const response = responseSuccess(result, "Lấy danh sách phim theo ngày thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async ThemPhimUploadHinh(req, res) {
+    const result = await quanLyPhimService.ThemPhimUploadHinh(req);
+    const response = responseSuccess(result, "Thêm phim upload hình thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async CapNhatPhimUpload(req, res) {
+    const result = await quanLyPhimService.CapNhatPhimUpload(req);
+    const response = responseSuccess(result, "Cập nhật phim upload thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+--- VIEW START ---
+import { responseSuccess } from "../common/helpers/response.helper.js";
+import { quanLyPhimService } from "../services/quan-ly-phim.service.js";
+
+export const quanLyPhimController = {
+  async LayDanhSachBanner(req, res) {
+    const result = await quanLyPhimService.LayDanhSachBanner(req);
+    const response = responseSuccess(result, "Lấy danh sách banner thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhim(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhim(req);
+    const response = responseSuccess(result, "Lấy danh sách phim thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimPhanTrang(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimPhanTrang(req);
+    const response = responseSuccess(result, "Lấy danh sách phim phân trang thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async LayDanhSachPhimTheoNgay(req, res) {
+    const result = await quanLyPhimService.LayDanhSachPhimTheoNgay(req);
+    const response = responseSuccess(result, "Lấy danh sách phim theo ngày thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async ThemPhimUploadHinh(req, res) {
+    const result = await quanLyPhimService.ThemPhimUploadHinh(req);
+    const response = responseSuccess(result, "Thêm phim upload hình thành công");
+    res.status(response.statusCode).json(response);
+  },
+
+  async CapNhatPhimUpload(req, res) {
+    const result = await quanLyPhimService.CapNhatPhimUpload(req);
+    const response = responseSuccess(result, "Cập nhật phim upload thành công");
+    res.status(response.statusCode).json(response);
+  },
