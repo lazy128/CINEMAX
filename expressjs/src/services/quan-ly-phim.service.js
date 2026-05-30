@@ -48,6 +48,24 @@ export const quanLyPhimService = {
       orderBy: { ma_banner: "desc" },
     });
 
+    // Nếu bảng banner chưa có dữ liệu, tự động lấy 3 phim đang chiếu làm banner (dữ liệu thật từ Admin)
+    if (items.length === 0) {
+      const activeMovies = await prisma.phim.findMany({
+        where: { dang_chieu: true, is_deleted: false },
+        take: 3,
+        orderBy: { ma_phim: "desc" },
+      });
+      
+      return activeMovies.map((x) => ({
+        maBanner: x.ma_phim,
+        maPhim: x.ma_phim,
+        hinhAnh: x.hinh_anh,
+        phim: mapPhim(x),
+        image: x.hinh_anh,
+        movieId: String(x.ma_phim),
+      }));
+    }
+
     return items.map((x) => ({
       maBanner: x.ma_banner,
       maPhim: x.ma_phim,
