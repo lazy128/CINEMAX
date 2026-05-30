@@ -6,7 +6,6 @@ import { quanLyPhimApi, quanLyRapApi, quanLyDatVeApi } from "@/lib/cinema-api";
 import { api } from "@/lib/api-client";
 import { AdminUsersTab } from "./AdminUsersTab";
 import { AdminBookingsTab } from "./AdminBookingsTab";
-import { AdminCinemasTab } from "./AdminCinemasTab";
 import type { Phim } from "@/lib/cinema-api";
 
 type Room = { maRap: number; tenRap: string; tenCumRap: string; tenHeThong: string };
@@ -44,7 +43,7 @@ export function AdminShowtimePage() {
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ type: "ok" | "err"; msg: string } | null>(null);
   
-  const [activeTab, setActiveTab] = useState<"showtime" | "movie" | "delete" | "updateMovie" | "updateShowtime" | "users" | "bookings" | "cinemas">("showtime");
+  const [activeTab, setActiveTab] = useState<"showtime" | "movie" | "delete" | "updateMovie" | "updateShowtime" | "users" | "bookings">("showtime");
 
   // State for Showtime
   const [maPhim, setMaPhim] = useState("");
@@ -353,20 +352,11 @@ export function AdminShowtimePage() {
             >
               QUẢN LÝ ĐẶT VÉ
             </button>
-            <button
-              onClick={() => { setActiveTab("cinemas"); setResult(null); }}
-              className={`px-4 py-2 rounded-md font-display text-[11px] tracking-widest transition ${activeTab === "cinemas" ? "bg-accent-blood text-white shadow-lg" : "text-text-muted hover:text-white"}`}
-            >
-              QUẢN LÝ RẠP
-            </button>
           </div>
         </motion.div>
 
         <div className="mt-10">
           <AnimatePresence mode="wait">
-            {activeTab === "users" && <AdminUsersTab key="users" />}
-            {activeTab === "bookings" && <AdminBookingsTab key="bookings" />}
-            {activeTab === "cinemas" && <AdminCinemasTab key="cinemas" />}
             {activeTab === "showtime" ? (
               <motion.form
                 key="showtime"
@@ -672,10 +662,10 @@ export function AdminShowtimePage() {
                   {submitting ? "ĐANG LƯU..." : "CẬP NHẬT LỊCH CHIẾU"}
                 </button>
               </motion.form>
+            ) : activeTab === "users" ? (
+              <AdminUsersTab key="users" />
             ) : activeTab === "bookings" ? (
               <AdminBookingsTab key="bookings" />
-            ) : activeTab === "cinemas" ? (
-              <AdminCinemasTab key="cinemas" />
             ) : null}
           </AnimatePresence>
         </div>

@@ -280,22 +280,7 @@ export const quanLyRapApi = {
       params: { maPhim },
     });
     return data.data;
-  },
-
-  async taoHeThongRap(payload: { maHeThongRap: string; tenHeThongRap: string; logo?: string }) {
-    const { data } = await api.post<ApiEnvelope<any>>("/QuanLyRap/TaoHeThongRap", payload);
-    return data.data;
-  },
-
-  async taoCumRap(payload: { maCumRap: string; tenCumRap: string; diaChi: string; maHeThongRap: string }) {
-    const { data } = await api.post<ApiEnvelope<any>>("/QuanLyRap/TaoCumRap", payload);
-    return data.data;
-  },
-
-  async taoRapPhim(payload: { tenRap: string; maCumRap: string }) {
-    const { data } = await api.post<ApiEnvelope<any>>("/QuanLyRap/TaoRapPhim", payload);
-    return data.data;
-  },
+  }
 };
 
 // ─── Quản lý đặt vé ───
