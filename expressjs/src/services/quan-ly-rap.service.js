@@ -18,7 +18,15 @@ export const quanLyRapService = {
       where: { ma_he_thong_rap: maHeThongRap },
       include: { rap_phim: true }
     });
-    return result;
+    return result.map(cum => ({
+      maCumRap: cum.ma_cum_rap,
+      tenCumRap: cum.ten_cum_rap,
+      diaChi: cum.dia_chi,
+      danhSachRap: cum.rap_phim.map(rap => ({
+        maRap: rap.ma_rap,
+        tenRap: rap.ten_rap
+      }))
+    }));
   },
 
   async LayThongTinLichChieuHeThongRap(req) {
