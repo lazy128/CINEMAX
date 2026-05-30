@@ -4,6 +4,8 @@ const baseURL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
   "http://localhost:5000/api";
 
+export const IMAGE_BASE_URL = baseURL.replace(/\/api\/?$/, "");
+
 export const api = axios.create({
   baseURL,
 });

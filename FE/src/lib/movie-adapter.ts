@@ -1,6 +1,7 @@
 import type { Movie, Showtime } from "@/data/movies";
 import { DATES } from "@/data/movies";
 import type { Phim, LichChieuPhimDetail } from "./cinema-api";
+import { IMAGE_BASE_URL } from "./api-client";
 
 const TYPE_ORDER = ["STANDARD", "DOLBY", "IMAX", "4DX"] as const;
 const GENRES = ["Action", "Drama", "Sci-Fi", "Thriller", "Horror", "Comedy"];
@@ -149,7 +150,7 @@ export function adaptPhimToMovie(item: Phim, lichChieuData?: LichChieuPhimDetail
       hinhAnh = hinhAnh.replace("public/", "");
     }
     if (hinhAnh.startsWith("images/")) {
-      hinhAnh = `http://localhost:5000/${hinhAnh}`;
+      hinhAnh = `${IMAGE_BASE_URL}/${hinhAnh}`;
     }
   }
 

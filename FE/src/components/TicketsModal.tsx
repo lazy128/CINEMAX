@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Ticket, Calendar, MapPin, Film, Loader2, CreditCard } from "lucide-react";
-import { api } from "@/lib/api-client";
+import { api, IMAGE_BASE_URL } from "@/lib/api-client";
 
 export function TicketsModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [tickets, setTickets] = useState<any[]>([]);
@@ -76,7 +76,7 @@ export function TicketsModal({ open, onClose }: { open: boolean; onClose: () => 
                       <div key={t.maVe} className="flex flex-col sm:flex-row overflow-hidden rounded-xl border border-white/10 bg-black/20 transition hover:border-accent-blood/50">
                         {t.hinhAnh && (
                           <div className="sm:w-32 h-32 sm:h-auto bg-black/50 shrink-0">
-                            <img src={t.hinhAnh.startsWith('public\\images') ? `http://localhost:5000/${t.hinhAnh.replace('public\\', '').replace(/\\/g, '/')}` : t.hinhAnh} alt="Poster" className="h-full w-full object-cover" />
+                            <img src={t.hinhAnh.startsWith('public\\images') ? `${IMAGE_BASE_URL}/${t.hinhAnh.replace('public\\', '').replace(/\\/g, '/')}` : t.hinhAnh} alt="Poster" className="h-full w-full object-cover" />
                           </div>
                         )}
                         <div className="flex-1 p-4">
