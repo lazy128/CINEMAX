@@ -10,5 +10,6 @@ quanLyDatVeRouter.post("/LuuGiaoDich", protect, quanLyDatVeController.LuuGiaoDic
 quanLyDatVeRouter.get("/LayDanhSachPhongVe", quanLyDatVeController.LayDanhSachPhongVe);
 quanLyDatVeRouter.post("/TaoLichChieu", protect, restrictTo("QuanTri"), quanLyDatVeController.TaoLichChieu);
 quanLyDatVeRouter.post("/CapNhatLichChieu", protect, restrictTo("QuanTri"), quanLyDatVeController.CapNhatLichChieu);
+quanLyDatVeRouter.get("/LayDanhSachTatCaVe", protect, restrictTo("QuanTri"), quanLyDatVeController.LayDanhSachTatCaVe);
 
 export default quanLyDatVeRouter;

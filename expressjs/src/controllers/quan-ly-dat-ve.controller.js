@@ -31,4 +31,10 @@ export const quanLyDatVeController = {
     const response = responseSuccess(result, "Cập nhật lịch chiếu thành công");
     res.status(response.statusCode).json(response);
   },
+
+  async LayDanhSachTatCaVe(req, res) {
+    const result = await quanLyDatVeService.LayDanhSachTatCaVe(req);
+    const response = responseSuccess(result, "Lấy danh sách tất cả vé thành công");
+    res.status(response.statusCode).json(response);
+  },
 };

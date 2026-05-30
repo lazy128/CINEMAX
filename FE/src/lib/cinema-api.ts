@@ -315,6 +315,21 @@ export type DatVePayload = {
   danhSachVe: Array<{ maGhe: number; giaVe: number }>;
 };
 
+export type AdminTicket = {
+  id: number;
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  tenPhim: string;
+  tenHeThong: string;
+  tenCumRap: string;
+  tenRap: string;
+  ngayGioChieu: string;
+  tenGhe: string;
+  giaVe: number;
+  ngayDat: string;
+};
+
 export const quanLyDatVeApi = {
   async layDanhSachPhongVe(maLichChieu: number) {
     const { data } = await api.get<ApiEnvelope<PhongVe>>("/QuanLyDatVe/LayDanhSachPhongVe", {
@@ -340,6 +355,11 @@ export const quanLyDatVeApi = {
 
   async luuGiaoDich(payload: { maLichChieu: number; tongTien: number; noiDungCk?: string }) {
     const { data } = await api.post<ApiEnvelope<any>>("/QuanLyDatVe/LuuGiaoDich", payload);
+    return data.data;
+  },
+
+  async layDanhSachTatCaVe() {
+    const { data } = await api.get<ApiEnvelope<AdminTicket[]>>("/QuanLyDatVe/LayDanhSachTatCaVe");
     return data.data;
   },
 };
