@@ -144,6 +144,30 @@ export const quanLyDatVeService = {
   async CapNhatLichChieu(req) {
     const { maLichChieu, maPhim, ngayChieuGioChieu, maRap, giaVe } = req.body;
 
+    if (!maLichChieu) {
+      throw new BadRequestException("Mã lịch chiếu không được để trống");
+    }
+
+    const exist = await prisma.lich_chieu.findUnique({
+      where: { ma_lich_chieu: Number(maLichChieu) },
+      include: {
+        _count: {
+          select: { dat_ve: true }
+        }
+      }
+    });
+
+    if (!exist) {
+      throw new NotfoundException(`Lịch chiếu có mã ${maLichChieu} không tồn tại`);
+    }
+
+    // Nếu lịch chiếu đã có người đặt vé, không cho phép đổi Phim hoặc Rạp
+    if (exist._count.dat_ve > 0) {
+      if ((maPhim && Number(maPhim) !== exist.ma_phim) || (maRap && Number(maRap) !== exist.ma_rap)) {
+        throw new BadRequestException("Không thể đổi phim hoặc rạp vì lịch chiếu này đã có khách đặt vé.");
+      }
+    }
+
     const updated = await prisma.lich_chieu.update({
       where: { ma_lich_chieu: Number(maLichChieu) },
       data: {
