@@ -194,6 +194,7 @@ exports.Prisma.PhimScalarFieldEnum = {
   hot: 'hot',
   dang_chieu: 'dang_chieu',
   sap_chieu: 'sap_chieu',
+  the_loai: 'the_loai',
   ma_nhom: 'ma_nhom',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -265,6 +266,7 @@ exports.Prisma.phimOrderByRelevanceFieldEnum = {
   trailer: 'trailer',
   hinh_anh: 'hinh_anh',
   mo_ta: 'mo_ta',
+  the_loai: 'the_loai',
   ma_nhom: 'ma_nhom',
   created_by: 'created_by',
   deleted_by: 'deleted_by'

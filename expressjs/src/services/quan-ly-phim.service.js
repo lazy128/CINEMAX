@@ -23,10 +23,11 @@ function mapPhim(item) {
     id: String(item.ma_phim),
     title: item.ten_phim,
     tagline: item.mo_ta || item.ten_phim,
-    genre: ["General"],
+    genre: item.the_loai ? item.the_loai.split(",") : ["General"],
     rating: item.danh_gia >= 8 ? "18+" : item.danh_gia >= 6 ? "16+" : "13+",
     imdbScore: Number(item.danh_gia || 0),
     runtime: 120,
+    theLoai: item.the_loai,
     language: "Vietnamese",
     synopsis: item.mo_ta || "No synopsis",
     cast: [],
@@ -109,7 +110,7 @@ export const quanLyPhimService = {
   },
 
   async ThemPhimUploadHinh(req) {
-    const { tenPhim, trailer, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+    const { tenPhim, trailer, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu, theLoai } = req.body;
     const hinhAnh = req.file?.path || req.body.hinhAnh || null;
 
     const created = await prisma.phim.create({
@@ -124,6 +125,7 @@ export const quanLyPhimService = {
         hot: hot === "true" || hot === true,
         dang_chieu: dangChieu === "true" || dangChieu === true,
         sap_chieu: sapChieu === "true" || sapChieu === true,
+        the_loai: theLoai,
         created_by: req.user?.tai_khoan,
       },
     });
@@ -151,6 +153,7 @@ export const quanLyPhimService = {
         hot: req.body.hot != null ? (req.body.hot === "true" || req.body.hot === true) : current.hot,
         dang_chieu: req.body.dangChieu != null ? (req.body.dangChieu === "true" || req.body.dangChieu === true) : current.dang_chieu,
         sap_chieu: req.body.sapChieu != null ? (req.body.sapChieu === "true" || req.body.sapChieu === true) : current.sap_chieu,
+        the_loai: req.body.theLoai !== undefined ? req.body.theLoai : current.the_loai,
       },
     });
 
@@ -158,7 +161,7 @@ export const quanLyPhimService = {
   },
 
   async ThemPhim(req) {
-    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu } = req.body;
+    const { tenPhim, trailer, hinhAnh, moTa, maNhom, ngayKhoiChieu, danhGia, hot, dangChieu, sapChieu, theLoai } = req.body;
 
     const created = await prisma.phim.create({
       data: {
@@ -172,6 +175,7 @@ export const quanLyPhimService = {
         hot: hot === "true" || hot === true,
         dang_chieu: dangChieu === "true" || dangChieu === true,
         sap_chieu: sapChieu === "true" || sapChieu === true,
+        the_loai: theLoai,
         created_by: req.user?.tai_khoan,
       },
     });

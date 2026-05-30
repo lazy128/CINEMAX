@@ -58,6 +58,7 @@ export type Phim = {
   hot: boolean;
   dangChieu: boolean;
   sapChieu: boolean;
+  theLoai?: string;
 };
 
 export type Banner = {

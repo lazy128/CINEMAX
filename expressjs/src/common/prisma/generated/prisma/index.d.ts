@@ -9602,6 +9602,7 @@ export namespace Prisma {
     hot: boolean | null
     dang_chieu: boolean | null
     sap_chieu: boolean | null
+    the_loai: string | null
     ma_nhom: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -9622,6 +9623,7 @@ export namespace Prisma {
     hot: boolean | null
     dang_chieu: boolean | null
     sap_chieu: boolean | null
+    the_loai: string | null
     ma_nhom: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -9642,6 +9644,7 @@ export namespace Prisma {
     hot: number
     dang_chieu: number
     sap_chieu: number
+    the_loai: number
     ma_nhom: number
     created_at: number
     updated_at: number
@@ -9674,6 +9677,7 @@ export namespace Prisma {
     hot?: true
     dang_chieu?: true
     sap_chieu?: true
+    the_loai?: true
     ma_nhom?: true
     created_at?: true
     updated_at?: true
@@ -9694,6 +9698,7 @@ export namespace Prisma {
     hot?: true
     dang_chieu?: true
     sap_chieu?: true
+    the_loai?: true
     ma_nhom?: true
     created_at?: true
     updated_at?: true
@@ -9714,6 +9719,7 @@ export namespace Prisma {
     hot?: true
     dang_chieu?: true
     sap_chieu?: true
+    the_loai?: true
     ma_nhom?: true
     created_at?: true
     updated_at?: true
@@ -9821,6 +9827,7 @@ export namespace Prisma {
     hot: boolean
     dang_chieu: boolean
     sap_chieu: boolean
+    the_loai: string | null
     ma_nhom: string
     created_at: Date
     updated_at: Date
@@ -9860,6 +9867,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: boolean
     ma_nhom?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -9885,6 +9893,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: boolean
     ma_nhom?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -9894,7 +9903,7 @@ export namespace Prisma {
     is_deleted?: boolean
   }
 
-  export type phimOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ma_phim" | "ten_phim" | "trailer" | "hinh_anh" | "mo_ta" | "ngay_khoi_chieu" | "danh_gia" | "hot" | "dang_chieu" | "sap_chieu" | "ma_nhom" | "created_at" | "updated_at" | "created_by" | "deleted_at" | "deleted_by" | "is_deleted", ExtArgs["result"]["phim"]>
+  export type phimOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"ma_phim" | "ten_phim" | "trailer" | "hinh_anh" | "mo_ta" | "ngay_khoi_chieu" | "danh_gia" | "hot" | "dang_chieu" | "sap_chieu" | "the_loai" | "ma_nhom" | "created_at" | "updated_at" | "created_by" | "deleted_at" | "deleted_by" | "is_deleted", ExtArgs["result"]["phim"]>
   export type phimInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     banner?: boolean | phim$bannerArgs<ExtArgs>
     lich_chieu?: boolean | phim$lich_chieuArgs<ExtArgs>
@@ -9918,6 +9927,7 @@ export namespace Prisma {
       hot: boolean
       dang_chieu: boolean
       sap_chieu: boolean
+      the_loai: string | null
       ma_nhom: string
       created_at: Date
       updated_at: Date
@@ -10306,6 +10316,7 @@ export namespace Prisma {
     readonly hot: FieldRef<"phim", 'Boolean'>
     readonly dang_chieu: FieldRef<"phim", 'Boolean'>
     readonly sap_chieu: FieldRef<"phim", 'Boolean'>
+    readonly the_loai: FieldRef<"phim", 'String'>
     readonly ma_nhom: FieldRef<"phim", 'String'>
     readonly created_at: FieldRef<"phim", 'DateTime'>
     readonly updated_at: FieldRef<"phim", 'DateTime'>
@@ -11833,6 +11844,7 @@ export namespace Prisma {
     hot: 'hot',
     dang_chieu: 'dang_chieu',
     sap_chieu: 'sap_chieu',
+    the_loai: 'the_loai',
     ma_nhom: 'ma_nhom',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -11937,6 +11949,7 @@ export namespace Prisma {
     trailer: 'trailer',
     hinh_anh: 'hinh_anh',
     mo_ta: 'mo_ta',
+    the_loai: 'the_loai',
     ma_nhom: 'ma_nhom',
     created_by: 'created_by',
     deleted_by: 'deleted_by'
@@ -12479,6 +12492,7 @@ export namespace Prisma {
     hot?: BoolFilter<"phim"> | boolean
     dang_chieu?: BoolFilter<"phim"> | boolean
     sap_chieu?: BoolFilter<"phim"> | boolean
+    the_loai?: StringNullableFilter<"phim"> | string | null
     ma_nhom?: StringFilter<"phim"> | string
     created_at?: DateTimeFilter<"phim"> | Date | string
     updated_at?: DateTimeFilter<"phim"> | Date | string
@@ -12501,6 +12515,7 @@ export namespace Prisma {
     hot?: SortOrder
     dang_chieu?: SortOrder
     sap_chieu?: SortOrder
+    the_loai?: SortOrderInput | SortOrder
     ma_nhom?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -12527,6 +12542,7 @@ export namespace Prisma {
     hot?: BoolFilter<"phim"> | boolean
     dang_chieu?: BoolFilter<"phim"> | boolean
     sap_chieu?: BoolFilter<"phim"> | boolean
+    the_loai?: StringNullableFilter<"phim"> | string | null
     ma_nhom?: StringFilter<"phim"> | string
     created_at?: DateTimeFilter<"phim"> | Date | string
     updated_at?: DateTimeFilter<"phim"> | Date | string
@@ -12549,6 +12565,7 @@ export namespace Prisma {
     hot?: SortOrder
     dang_chieu?: SortOrder
     sap_chieu?: SortOrder
+    the_loai?: SortOrderInput | SortOrder
     ma_nhom?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -12577,6 +12594,7 @@ export namespace Prisma {
     hot?: BoolWithAggregatesFilter<"phim"> | boolean
     dang_chieu?: BoolWithAggregatesFilter<"phim"> | boolean
     sap_chieu?: BoolWithAggregatesFilter<"phim"> | boolean
+    the_loai?: StringNullableWithAggregatesFilter<"phim"> | string | null
     ma_nhom?: StringWithAggregatesFilter<"phim"> | string
     created_at?: DateTimeWithAggregatesFilter<"phim"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"phim"> | Date | string
@@ -13088,6 +13106,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -13110,6 +13129,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -13131,6 +13151,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13153,6 +13174,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13175,6 +13197,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -13194,6 +13217,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13214,6 +13238,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13804,6 +13829,7 @@ export namespace Prisma {
     hot?: SortOrder
     dang_chieu?: SortOrder
     sap_chieu?: SortOrder
+    the_loai?: SortOrder
     ma_nhom?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -13829,6 +13855,7 @@ export namespace Prisma {
     hot?: SortOrder
     dang_chieu?: SortOrder
     sap_chieu?: SortOrder
+    the_loai?: SortOrder
     ma_nhom?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -13849,6 +13876,7 @@ export namespace Prisma {
     hot?: SortOrder
     dang_chieu?: SortOrder
     sap_chieu?: SortOrder
+    the_loai?: SortOrder
     ma_nhom?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -14652,6 +14680,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -14673,6 +14702,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -14709,6 +14739,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14730,6 +14761,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15155,6 +15187,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -15176,6 +15209,7 @@ export namespace Prisma {
     hot?: boolean
     dang_chieu?: boolean
     sap_chieu?: boolean
+    the_loai?: string | null
     ma_nhom?: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -15246,6 +15280,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15267,6 +15302,7 @@ export namespace Prisma {
     hot?: BoolFieldUpdateOperationsInput | boolean
     dang_chieu?: BoolFieldUpdateOperationsInput | boolean
     sap_chieu?: BoolFieldUpdateOperationsInput | boolean
+    the_loai?: NullableStringFieldUpdateOperationsInput | string | null
     ma_nhom?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

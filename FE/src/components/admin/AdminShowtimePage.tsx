@@ -61,6 +61,12 @@ export function AdminShowtimePage() {
   const [dangChieu, setDangChieu] = useState(false);
   const [sapChieu, setSapChieu] = useState(true);
   const [hot, setHot] = useState(false);
+  const [theLoai, setTheLoai] = useState<string[]>([]);
+  
+  const GENRES = ["Action", "Drama", "Sci-Fi", "Thriller", "Horror", "Comedy"];
+  const handleGenreToggle = (g: string) => {
+    setTheLoai(prev => prev.includes(g) ? prev.filter(x => x !== g) : [...prev, g]);
+  };
 
   const isAdmin = user?.maLoaiNguoiDung === "QuanTri";
 
@@ -152,6 +158,7 @@ export function AdminShowtimePage() {
       formData.append("dangChieu", dangChieu.toString());
       formData.append("sapChieu", sapChieu.toString());
       formData.append("hot", hot.toString());
+      formData.append("theLoai", theLoai.join(","));
       formData.append("File", hinhAnh);
 
       await quanLyPhimApi.themPhimUploadHinh(formData);
@@ -167,6 +174,7 @@ export function AdminShowtimePage() {
       setNgayKhoiChieu("");
       setHinhAnh(null);
       setDanhGia("10");
+      setTheLoai([]);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Thêm phim thất bại";
       setResult({ type: "err", msg });
@@ -205,6 +213,7 @@ export function AdminShowtimePage() {
       setDangChieu(movie.dangChieu);
       setSapChieu(movie.sapChieu);
       setHot(movie.hot);
+      setTheLoai(movie.theLoai ? movie.theLoai.split(",") : []);
     }
   };
 
@@ -225,6 +234,7 @@ export function AdminShowtimePage() {
       formData.append("dangChieu", dangChieu.toString());
       formData.append("sapChieu", sapChieu.toString());
       formData.append("hot", hot.toString());
+      formData.append("theLoai", theLoai.join(","));
       if (hinhAnh) formData.append("File", hinhAnh);
 
       await quanLyPhimApi.capNhatPhimUpload(formData);
@@ -416,6 +426,26 @@ export function AdminShowtimePage() {
                   <input type="url" value={trailer} onChange={(e) => setTrailer(e.target.value)} required placeholder="VD: https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
                 
+                <div className="space-y-3">
+                  <label className="flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Film size={12} /> PHÂN LOẠI (GENRE)</label>
+                  <div className="flex flex-wrap gap-2">
+                    {GENRES.map(g => (
+                      <button
+                        key={g}
+                        type="button"
+                        onClick={() => handleGenreToggle(g)}
+                        className={`rounded-full px-4 py-1.5 text-xs font-display tracking-widest transition border ${
+                          theLoai.includes(g) 
+                            ? "border-accent-blood bg-accent-blood/20 text-accent-blood" 
+                            : "border-white/10 bg-white/5 text-text-muted hover:border-white/20 hover:text-white"
+                        }`}
+                      >
+                        {g.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div>
                   <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><FileText size={12} /> MÔ TẢ</label>
                   <textarea value={moTa} onChange={(e) => setMoTa(e.target.value)} required rows={4} className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
@@ -423,13 +453,19 @@ export function AdminShowtimePage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/10 pt-6">
                   <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setDangChieu(!dangChieu)} className="text-accent-blood transition hover:scale-110">
+                    <button type="button" onClick={() => {
+                      setDangChieu(!dangChieu);
+                      if (!dangChieu) setSapChieu(false);
+                    }} className="text-accent-blood transition hover:scale-110">
                       {dangChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
                     </button>
                     <span className="font-display text-[11px] tracking-widest text-text-primary">ĐANG CHIẾU</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setSapChieu(!sapChieu)} className="text-accent-blood transition hover:scale-110">
+                    <button type="button" onClick={() => {
+                      setSapChieu(!sapChieu);
+                      if (!sapChieu) setDangChieu(false);
+                    }} className="text-accent-blood transition hover:scale-110">
                       {sapChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
                     </button>
                     <span className="font-display text-[11px] tracking-widest text-text-primary">SẮP CHIẾU</span>
@@ -518,29 +554,49 @@ export function AdminShowtimePage() {
                   <input type="url" value={trailer} onChange={(e) => setTrailer(e.target.value)} placeholder="VD: https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
                 
+                <div className="space-y-3">
+                  <label className="flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Film size={12} /> PHÂN LOẠI (GENRE)</label>
+                  <div className="flex flex-wrap gap-2">
+                    {GENRES.map(g => (
+                      <button
+                        key={g}
+                        type="button"
+                        onClick={() => handleGenreToggle(g)}
+                        className={`rounded-full px-4 py-1.5 text-xs font-display tracking-widest transition border ${
+                          theLoai.includes(g) 
+                            ? "border-accent-blood bg-accent-blood/20 text-accent-blood" 
+                            : "border-white/10 bg-white/5 text-text-muted hover:border-white/20 hover:text-white"
+                        }`}
+                      >
+                        {g.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div>
                   <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><FileText size={12} /> MÔ TẢ</label>
                   <textarea value={moTa} onChange={(e) => setMoTa(e.target.value)} rows={4} className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/10 pt-6">
                   <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setDangChieu(!dangChieu)} className="text-accent-blood transition hover:scale-110">
+                    <button type="button" onClick={() => {
+                      setDangChieu(!dangChieu);
+                      if (!dangChieu) setSapChieu(false);
+                    }} className="text-accent-blood transition hover:scale-110">
                       {dangChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
                     </button>
                     <span className="font-display text-[11px] tracking-widest text-text-primary">ĐANG CHIẾU</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setSapChieu(!sapChieu)} className="text-accent-blood transition hover:scale-110">
+                    <button type="button" onClick={() => {
+                      setSapChieu(!sapChieu);
+                      if (!sapChieu) setDangChieu(false);
+                    }} className="text-accent-blood transition hover:scale-110">
                       {sapChieu ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
                     </button>
                     <span className="font-display text-[11px] tracking-widest text-text-primary">SẮP CHIẾU</span>
-                  </label>
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <button type="button" onClick={() => setHot(!hot)} className="text-accent-blood transition hover:scale-110">
-                      {hot ? <ToggleRight size={28} /> : <ToggleLeft size={28} className="text-text-muted" />}
-                    </button>
-                    <span className="font-display text-[11px] tracking-widest text-text-primary">PHIM HOT</span>
                   </label>
                 </div>
 

@@ -1,1 +1,0 @@
-"import { prisma } from './src/common/prisma/connect.prisma.js';\nprisma.dat_ve.findMany().then(res => {\n  console.log(\"TICKETS:\", res.length);\n  console.log(res);\n}).catch(console.error).finally(() => prisma.$disconnect());\n"

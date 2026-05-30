@@ -164,9 +164,9 @@ export function adaptPhimToMovie(item: Phim, lichChieuData?: LichChieuPhimDetail
     id: String(source.id ?? item.maPhim),
     title: source.title ?? item.tenPhim,
     tagline: source.tagline ?? item.moTa ?? item.tenPhim,
-    genre: Array.isArray(source.genre) && source.genre.length > 0
+    genre: item.theLoai ? item.theLoai.split(",") : (Array.isArray(source.genre) && source.genre.length > 0
       ? source.genre
-      : [GENRES[seedBase % GENRES.length]],
+      : [GENRES[seedBase % GENRES.length]]),
     rating: source.rating ?? (score >= 8 ? "18+" : score >= 6 ? "16+" : "13+"),
     imdbScore: score,
     runtime: Number(source.runtime ?? 120),
