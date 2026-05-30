@@ -318,7 +318,6 @@ export function ShowtimesModal() {
                             <div>
                               <div className="font-display text-sm tracking-wider">{c.name}</div>
                               <div className="mt-0.5 text-[11px] text-text-muted">{c.address}</div>
-                              <div className="mt-1 text-[10px] uppercase tracking-widest text-accent-ember">{c.distance}</div>
                             </div>
                           </div>
                         </button>

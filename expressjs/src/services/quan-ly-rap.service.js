@@ -9,7 +9,12 @@ export const quanLyRapService = {
       where.ma_he_thong_rap = maHeThongRap;
     }
     const result = await prisma.he_thong_rap.findMany({ where });
-    return result;
+    return result.map(ht => ({
+      maHeThongRap: ht.ma_he_thong_rap,
+      tenHeThongRap: ht.ten_he_thong_rap,
+      logo: ht.logo,
+      biDanh: ht.bi_danh || ht.ma_he_thong_rap
+    }));
   },
 
   async LayThongTinCumRapTheoHeThong(req) {
