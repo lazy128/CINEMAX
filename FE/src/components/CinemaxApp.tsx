@@ -161,11 +161,18 @@ function Inner() {
 }
 
 export function CinemaxApp() {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(() => {
+    return sessionStorage.getItem("cinemax_loaded") === "true";
+  });
+
+  const handleDone = () => {
+    sessionStorage.setItem("cinemax_loaded", "true");
+    setLoaded(true);
+  };
 
   return (
     <BookingProvider>
-      {!loaded && <LoadingScreen onDone={() => setLoaded(true)} />}
+      {!loaded && <LoadingScreen onDone={handleDone} />}
       <AnimatePresence>
         {loaded && (
           <motion.main

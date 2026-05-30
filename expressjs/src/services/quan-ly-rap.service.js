@@ -70,7 +70,8 @@ export const quanLyRapService = {
   },
 
   async LayThongTinLichChieuPhim(req) {
-    const maPhim = Number(req.query.MaPhim);
+    const rawMaPhim = req.query.MaPhim || req.query.maPhim;
+    const maPhim = Number(rawMaPhim);
     const phim = await prisma.phim.findUnique({
       where: { ma_phim: maPhim },
       include: {
