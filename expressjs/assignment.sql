@@ -115,7 +115,7 @@ INSERT into users (full_name,email,passwords) VALUES
 ('Bill Gates','billgates@gmail.com','microsoft2024'),
 ('Donald Trump','donaldtrump@gmail.com','trump2024'),
 ('Barack Obama','barackobama@gmail.com','obama2024'),
-('Stephen Hawking','stephenhawking@gmail.com','physics2024')
+('Stephen Hawking','stephenhawking@gmail.com','physics2024');
 
 INSERT into food_types (types_name) VALUES
 ('Fast Food'),
@@ -127,7 +127,7 @@ INSERT into food_types (types_name) VALUES
 ('Salads'),
 ('Soups'),
 ('Pasta'),
-('Sushi')
+('Sushi');
 
 INSERT into foods (food_name, types_id) VALUES
 ('Burger', 1),
@@ -139,7 +139,7 @@ INSERT into foods (food_name, types_id) VALUES
 ('Vegan Burger', 2),
 ('Miso Soup', 9),
 ('Chocolate Cake', 3),
-('Green Tea Latte', 5)
+('Green Tea Latte', 5);
 
 INSERT into restaurants (res_name) VALUES
 ('Pizza Palace'),
@@ -151,7 +151,7 @@ INSERT into restaurants (res_name) VALUES
 ('Grill Master'),
 ('Salad Stop'),
 ('Soup Station'),
-('Dessert Haven')
+('Dessert Haven');
 
 INSERT into food_subs (sub_name, sub_price, foodID) VALUES
 ('Extra Cheese', 1.50, 1),
@@ -163,7 +163,7 @@ INSERT into food_subs (sub_name, sub_price, foodID) VALUES
 ('Vegan Cheese', 2.50, 7),
 ('Tofu', 1.20, 8),
 ('Whipped Cream', 1.00, 9),
-('Boba Pearls', 1.50, 10)
+('Boba Pearls', 1.50, 10);
 
 INSERT into orders (userID, foodID, amount, codes, arr_sub_id) VALUES
 (1, 1, 2, 'ORD123', '1,3'),
@@ -175,7 +175,7 @@ INSERT into orders (userID, foodID, amount, codes, arr_sub_id) VALUES
 (7, 8, 1, 'ORD129', '8'),
 (8, 9, 5, 'ORD130', '9'),
 (9, 10, 2, 'ORD131', '10'),
-(10, 1, 1, 'ORD132', '')
+(10, 1, 1, 'ORD132', '');
 
 INSERT into like_res (userID, resID) VALUES
 (1, 8),
@@ -227,7 +227,7 @@ INSERT into like_res (userID, resID) VALUES
 (2, 4),
 (3, 5),
 (4, 2),
-(5, 8)
+(5, 8);
 
 INSERT into rate_res (userID, resID, amount, date_rate) VALUES
 (1, 2, 5, '2024-01-15 12:30:00'),
@@ -239,7 +239,7 @@ INSERT into rate_res (userID, resID, amount, date_rate) VALUES
 (7, 6, 5, '2024-01-21 18:30:00'),
 (8, 9, 3, '2024-01-22 19:15:00'),
 (9, 8, 4, '2024-01-23 20:05:00'),
-(10, 10, 5, '2024-01-24 21:40:00')
+(10, 10, 5, '2024-01-24 21:40:00');
 
 
 --5 nguoi like nhieu cuu hang nhieu nhat
