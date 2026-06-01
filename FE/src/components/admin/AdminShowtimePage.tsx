@@ -128,7 +128,7 @@ export function AdminShowtimePage() {
         maPhim: Number(maPhim),
         maRap: Number(maRap),
         ngayChieuGioChieu: formatToApiDateTime(ngayGio),
-        giaVe: Number(giaVe),
+        giaVe: 75000,
       });
       setResult({ type: "ok", msg: "Tạo lịch chiếu thành công!" });
       setMaPhim("");
@@ -261,7 +261,6 @@ export function AdminShowtimePage() {
         maPhim: maPhim ? Number(maPhim) : undefined,
         maRap: maRap ? Number(maRap) : undefined,
         ngayChieuGioChieu: ngayGio ? formatToApiDateTime(ngayGio) : undefined,
-        giaVe: giaVe ? Number(giaVe) : undefined,
       });
       setResult({ type: "ok", msg: "Cập nhật lịch chiếu thành công!" });
     } catch (err) {
@@ -391,9 +390,6 @@ export function AdminShowtimePage() {
                   <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Calendar size={12} /> NGÀY GIỜ CHIẾU</label>
                   <input type="datetime-local" value={ngayGio} onChange={(e) => setNgayGio(e.target.value)} required className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
-                <div>
-                  <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Ticket size={12} /> GIÁ VÉ (VNĐ)</label>
-                  <input type="number" value={giaVe} onChange={(e) => setGiaVe(e.target.value)} placeholder="75000" required min="10000" step="5000" className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
                 {result && (
                   <div className={`flex items-center gap-2 rounded-lg px-4 py-3 text-sm ${result.type === "ok" ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border border-accent-blood/30 bg-accent-blood/10 text-accent-blood"}`}>
@@ -654,10 +650,6 @@ export function AdminShowtimePage() {
                 <div>
                   <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Calendar size={12} /> NGÀY GIỜ CHIẾU MỚI (BỎ TRỐNG NẾU GIỮ NGUYÊN)</label>
                   <input type="datetime-local" value={ngayGio} onChange={(e) => setNgayGio(e.target.value)} className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
-                </div>
-                <div>
-                  <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Ticket size={12} /> GIÁ VÉ MỚI (VNĐ) (BỎ TRỐNG NẾU GIỮ NGUYÊN)</label>
-                  <input type="number" value={giaVe} onChange={(e) => setGiaVe(e.target.value)} placeholder="VD: 75000" min="10000" step="5000" className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
                 {result && (
                   <div className={`flex items-center gap-2 rounded-lg px-4 py-3 text-sm ${result.type === "ok" ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border border-accent-blood/30 bg-accent-blood/10 text-accent-blood"}`}>
