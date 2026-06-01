@@ -59,6 +59,10 @@ export function ComingSoonCard({ movie }: { movie: Movie }) {
           loading="lazy"
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
           style={{ filter: "sepia(0.5) saturate(0.7) brightness(0.85)" }}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = `https://picsum.photos/seed/phim-${movie.id}/400/600`;
+          }}
         />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
         <div

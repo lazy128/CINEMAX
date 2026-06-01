@@ -43,6 +43,10 @@ function MovieCardBase({ movie }: { movie: Movie }) {
           alt={movie.title}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = `https://picsum.photos/seed/phim-${movie.id}/400/600`;
+          }}
         />
 
         {/* Static gradient */}

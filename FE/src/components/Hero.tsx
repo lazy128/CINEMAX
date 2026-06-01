@@ -85,6 +85,10 @@ function FeaturedPoster({ movie }: { movie: Movie }) {
           alt={movie.title}
           className="relative aspect-[2/3] w-full rounded-2xl object-cover shadow-[0_30px_80px_-20px_rgba(229,9,20,0.6)]"
           loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = `https://picsum.photos/seed/phim-${movie.id}/400/600`;
+          }}
         />
         <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-accent-blood/90 px-3 py-1 font-display text-[11px] tracking-widest text-white pulse-ring">
           <span className="h-1.5 w-1.5 rounded-full bg-white" />
