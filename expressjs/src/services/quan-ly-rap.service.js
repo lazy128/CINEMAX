@@ -47,8 +47,14 @@ export const quanLyRapService = {
           include: {
             rap_phim: {
               include: {
+                _count: {
+                  select: { ghe: true }
+                },
                 lich_chieu: {
-                  include: { phim: true }
+                  include: { 
+                    phim: true,
+                    _count: { select: { dat_ve: true } }
+                  }
                 }
               }
             }
@@ -75,7 +81,9 @@ export const quanLyRapService = {
             ngayGioChieu: lc.ngay_gio_chieu,
             giaVe: lc.gia_ve,
             tenPhim: lc.phim.ten_phim,
-            hinhAnh: lc.phim.hinh_anh
+            hinhAnh: lc.phim.hinh_anh,
+            totalSeats: rap._count?.ghe || 0,
+            seatsAvailable: (rap._count?.ghe || 0) - (lc._count?.dat_ve || 0)
           }))
         })).filter(rap => rap.lichChieu.length > 0)
       })).filter(cum => cum.lichChieuPhim.length > 0)
@@ -90,8 +98,12 @@ export const quanLyRapService = {
       include: {
         lich_chieu: {
           include: {
+            _count: { select: { dat_ve: true } },
             rap_phim: {
-              include: { cum_rap: { include: { he_thong_rap: true } } }
+              include: { 
+                _count: { select: { ghe: true } },
+                cum_rap: { include: { he_thong_rap: true } } 
+              }
             }
           }
         }
@@ -142,7 +154,9 @@ export const quanLyRapService = {
         maRap: lc.ma_rap,
         maPhim: lc.ma_phim,
         ngayGioChieu: lc.ngay_gio_chieu,
-        giaVe: lc.gia_ve
+        giaVe: lc.gia_ve,
+        totalSeats: rap._count?.ghe || 0,
+        seatsAvailable: (rap._count?.ghe || 0) - (lc._count?.dat_ve || 0)
       });
     });
 
