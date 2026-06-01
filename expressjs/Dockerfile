@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 RUN apk add --no-cache libc6-compat
 
@@ -14,9 +14,9 @@ COPY . .
 
 RUN npx prisma generate
 
-EXPOSE 3069
+EXPOSE 5000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3069', (r) => {if(r.statusCode>=500)process.exit(1)})"
+  CMD node -e "const port=process.env.PORT||5000; require('http').get(`http://localhost:${port}`, (r) => {if(r.statusCode>=500)process.exit(1)}).on('error', () => process.exit(1))"
 
 CMD ["tsx", "server.js"]
