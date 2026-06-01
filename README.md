@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/lazy128/CINEMAX/main/FE/public/favicon.ico" alt="Cinema Canvas Logo" width="100" height="auto" />
   <h1>🎬 CINEMAX (Cinema Canvas)</h1>
   <p><em>Hệ thống đặt vé xem phim trực tuyến hiện đại, mạnh mẽ và toàn diện.</em></p>
 
