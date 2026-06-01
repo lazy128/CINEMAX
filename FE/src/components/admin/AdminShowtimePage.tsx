@@ -390,7 +390,6 @@ export function AdminShowtimePage() {
                   <label className="mb-2 flex items-center gap-2 font-display text-[10px] tracking-[0.3em] text-text-muted"><Calendar size={12} /> NGÀY GIỜ CHIẾU</label>
                   <input type="datetime-local" value={ngayGio} onChange={(e) => setNgayGio(e.target.value)} required className="w-full rounded-lg border border-white/10 bg-bg-surface/70 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent-blood focus:ring-2 focus:ring-accent-blood/30" />
                 </div>
-                </div>
                 {result && (
                   <div className={`flex items-center gap-2 rounded-lg px-4 py-3 text-sm ${result.type === "ok" ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border border-accent-blood/30 bg-accent-blood/10 text-accent-blood"}`}>
                     {result.type === "ok" ? <CheckCircle2 size={16} /> : <XCircle size={16} />} {result.msg}
